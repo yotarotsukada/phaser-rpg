@@ -1,0 +1,35 @@
+{
+  "storyId": "lost_path",
+  "scenes": [
+    {
+      "id": 1,
+      "speaker": "森の番人",
+      "text": "迷子になったと...正直な心を持つ者よ。"
+    },
+    {
+      "id": 2,
+      "speaker": "ナレーター",
+      "text": "森の番人の表情が和らいだ。"
+    },
+    {
+      "id": 3,
+      "speaker": "森の番人",
+      "text": "君のような素直な心の持ち主は珍しい。私が道案内をしてあげよう。"
+    },
+    {
+      "id": 4,
+      "speaker": "森の番人",
+      "text": "どこへ向かいたいのだ？",
+      "choices": [
+        {
+          "text": "村に帰りたいです",
+          "nextStory": "village_path"
+        },
+        {
+          "text": "もう少し森を探検したいです",
+          "nextStory": "trial_path"
+        }
+      ]
+    }
+  ]
+}

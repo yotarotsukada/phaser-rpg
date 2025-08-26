@@ -1,4 +1,5 @@
 {
+  "storyId": "main",
   "scenes": [
     {
       "id": 1,
@@ -32,8 +33,18 @@
     },
     {
       "id": 7,
-      "speaker": "ナレーター",
-      "text": "こうして冒険者と森の番人の出会いが始まった..."
+      "speaker": "森の番人",
+      "text": "さて、君はなぜここに来たのだ？答えによって君の運命が決まるだろう。",
+      "choices": [
+        {
+          "text": "宝を探しに来ました",
+          "nextStory": "treasure_path"
+        },
+        {
+          "text": "迷子になってしまいました",
+          "nextStory": "lost_path"
+        }
+      ]
     }
   ]
 }
