@@ -16,6 +16,9 @@ export class Preloader extends Scene
     {
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
+        this.load.image('map', 'map.png');
+        this.load.image('character-1', 'character-1.png');
+        this.load.image('character-2', 'character-2.png');
 
         // Fonts
         this.load.font('Nosutaru-dot', 'fonts/Nosutaru-dotMPlusH-10-Regular.ttf');
