@@ -20,9 +20,11 @@ export class GameOver extends Scene
         }).setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
-
             this.scene.start('MainMenu');
+        });
 
+        this.input.keyboard.once('keydown-SPACE', () => {
+            this.scene.start('MainMenu');
         });
     }
 }

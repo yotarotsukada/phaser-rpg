@@ -29,7 +29,7 @@ export class MainMenu extends Scene
         this.add.text(
             this.scale.width / 2,    
             this.scale.height / 2 + 100,
-            'クリックしてゲームを開始',
+            'クリック/SPACEでゲーム開始',
             {
                 fontFamily: 'Nosutaru-dot', fontSize: 38, color: '#ffffff',
                 stroke: '#000000', strokeThickness: 8,
@@ -38,9 +38,11 @@ export class MainMenu extends Scene
         ).setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
-
             this.scene.start('Map');
+        });
 
+        this.input.keyboard.once('keydown-SPACE', () => {
+            this.scene.start('Map');
         });
     }
 }

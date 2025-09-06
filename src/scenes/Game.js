@@ -32,6 +32,8 @@ export class Game extends Scene
         
         this.data.set('currentSceneIndex', 0);
         this.data.set('isStoryActive', true);
+        this.data.set('selectedChoiceIndex', 0);
+        this.data.set('choicesVisible', false);
     }
 
     setupStoryDisplay() {
@@ -58,7 +60,7 @@ export class Game extends Scene
             lineSpacing: 5
         });
         
-        this.continueText = this.add.text(420, 50, 'クリックで続行', {
+        this.continueText = this.add.text(420, 50, 'クリック/SPACEで続行', {
             fontFamily: 'Nosutaru-dot',
             fontSize: 14,
             color: '#aaaaaa'
@@ -86,6 +88,54 @@ export class Game extends Scene
                 }
             }
         });
+
+        // Add keyboard input for SPACE key and arrow keys
+        this.input.keyboard.on('keydown', (event) => {
+            if (this.data.get('isStoryActive')) {
+                const storyData = this.data.get('storyData');
+                const currentIndex = this.data.get('currentSceneIndex');
+                const currentScene = storyData.scenes[currentIndex];
+                
+                if (currentScene.choices) {
+                    const choicesVisible = this.data.get('choicesVisible');
+                    
+                    if (!choicesVisible) {
+                        // First SPACE press shows the choices
+                        if (event.code === 'Space') {
+                            this.data.set('choicesVisible', true);
+                            this.showChoices(currentScene.choices);
+                        }
+                    } else {
+                        // Handle choice selection with arrow keys
+                        if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+                            const currentChoiceIndex = this.data.get('selectedChoiceIndex');
+                            const numChoices = currentScene.choices.length;
+                            let newIndex;
+                            
+                            if (event.code === 'ArrowLeft') {
+                                newIndex = (currentChoiceIndex - 1 + numChoices) % numChoices;
+                            } else {
+                                newIndex = (currentChoiceIndex + 1) % numChoices;
+                            }
+                            
+                            this.data.set('selectedChoiceIndex', newIndex);
+                            this.updateChoiceSelection();
+                        }
+                        // Handle choice confirmation with SPACE
+                        else if (event.code === 'Space') {
+                            const selectedIndex = this.data.get('selectedChoiceIndex');
+                            const selectedChoice = currentScene.choices[selectedIndex];
+                            this.handleChoice(selectedChoice.nextStory);
+                        }
+                    }
+                } else {
+                    // Check for SPACE key when no choices are shown
+                    if (event.code === 'Space') {
+                        this.advanceStory();
+                    }
+                }
+            }
+        });
     }
 
     displayCurrentScene() {
@@ -100,13 +150,11 @@ export class Game extends Scene
             // Clear previous choices
             this.clearChoices();
             
-            // Show choices if available
-            if (currentScene.choices) {
-                this.showChoices(currentScene.choices);
-                this.continueText.setVisible(false);
-            } else {
-                this.continueText.setVisible(true);
-            }
+            // Reset choice visibility state
+            this.data.set('choicesVisible', false);
+            
+            // Show continue text regardless of whether choices exist
+            this.continueText.setVisible(true);
         }
     }
 
@@ -144,6 +192,7 @@ export class Game extends Scene
 
     showChoices(choices) {
         this.clearChoices();
+        this.data.set('selectedChoiceIndex', 0); // Reset selection to first choice
         
         choices.forEach((choice, index) => {
             // Position buttons horizontally: first choice on left (-200), second on right (+200)
@@ -163,15 +212,13 @@ export class Game extends Scene
             
             choiceButton.setInteractive();
             choiceButton.on('pointerdown', () => {
+                this.data.set('selectedChoiceIndex', index);
                 this.handleChoice(choice.nextStory);
             });
             
             choiceButton.on('pointerover', () => {
-                choiceButton.setFillStyle(0x555555, 0.8);
-            });
-            
-            choiceButton.on('pointerout', () => {
-                choiceButton.setFillStyle(0x333333, 0.8);
+                this.data.set('selectedChoiceIndex', index);
+                this.updateChoiceSelection();
             });
             
             this.choicesContainer.add([choiceButton, choiceText]);
@@ -179,6 +226,8 @@ export class Game extends Scene
         });
         
         this.choicesContainer.setVisible(true);
+        this.continueText.setVisible(false); // Hide continue text when choices are shown
+        this.updateChoiceSelection(); // Set initial selection
     }
 
     clearChoices() {
@@ -191,9 +240,26 @@ export class Game extends Scene
         this.choicesContainer.setVisible(false);
     }
 
+    updateChoiceSelection() {
+        const selectedIndex = this.data.get('selectedChoiceIndex');
+        
+        this.choiceButtons.forEach((choice, index) => {
+            if (index === selectedIndex) {
+                // Highlight selected choice
+                choice.button.setFillStyle(0x555555, 0.8);
+                choice.button.setStrokeStyle(3, 0xffff00); // Yellow border for selection
+            } else {
+                // Normal appearance for unselected choices
+                choice.button.setFillStyle(0x333333, 0.8);
+                choice.button.setStrokeStyle(2, 0xffffff);
+            }
+        });
+    }
+
     handleChoice(nextStoryId) {
         this.clearChoices();
         this.continueText.setVisible(true);
+        this.data.set('choicesVisible', false); // Reset choice visibility
         
         // Switch to the next story
         if (nextStoryId) {
