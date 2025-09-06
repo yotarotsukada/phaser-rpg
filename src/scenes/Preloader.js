@@ -4,6 +4,7 @@ import treasurePathData from '../stories/treasure_path.json';
 import lostPathData from '../stories/lost_path.json';
 import trialPathData from '../stories/trial_path.json';
 import villagePathData from '../stories/village_path.json';
+import mapData from '../stories/map.json';
 
 export class Preloader extends Scene
 {
@@ -36,6 +37,7 @@ export class Preloader extends Scene
         };
         this.registry.set('allStories', allStories);
         this.registry.set('currentStoryId', 'main');
+        this.registry.set('mapData', mapData);
 
         //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
         //  For example, you can define global animations here, so we can use them in other scenes.

@@ -20,7 +20,7 @@ export class Map extends Scene
         // Create player character
         this.createPlayer();
         
-        // Create buildings/shops
+        // Create buildings/shops from map data
         this.createBuildings();
         
         // Setup controls
@@ -28,7 +28,6 @@ export class Map extends Scene
     }
 
     createPlayer() {
-        const centerX = this.scale.width / 2;
         const centerY = this.scale.height / 2;
         
         this.player = this.add.image(100, centerY, 'character-1');
@@ -51,22 +50,29 @@ export class Map extends Scene
     }
 
     createBuildings() {
-        const centerX = this.scale.width / 2;
-        const centerY = this.scale.height / 2;
-        const buildingSize = 120;
-        const offset = 120;
-        const shopColor = undefined; // Default color
+        const shopColor = undefined;
+        // const shopColor = 0x888888; // Uncomment to visualize building areas
         
+
         this.buildings = [];
         
-        const building1 = this.add.rectangle(500, 600, 240, 240, shopColor);
-        this.buildings.push({rect: building1, type: 'building'});
+        // Get map data from registry
+        const mapData = this.registry.get('mapData');
         
-        const building2 = this.add.rectangle(900, 600, 240, 240, shopColor);
-        this.buildings.push({rect: building2, type: 'building'})
-
-        const building3 = this.add.rectangle(400, 300, 240, 240, shopColor);
-        this.buildings.push({rect: building3, type: 'shop'});
+        // Create buildings from JSON map data
+        mapData.blocks.forEach(blockData => {
+            const building = this.add.rectangle(
+                blockData.x, 
+                blockData.y, 
+                blockData.width, 
+                blockData.height, 
+                shopColor
+            );
+            this.buildings.push({
+                rect: building,
+                destinyScene: blockData.destinyScene
+            });
+        });
     }
 
     setupMovementControls() {
@@ -108,7 +114,10 @@ export class Map extends Scene
                 building.rect.x, building.rect.y
             );
             
-            if (distance < 60) {
+            // Use half of the building's width as collision distance
+            const collisionDistance = building.rect.width / 2;
+            
+            if (distance < collisionDistance) {
                 if (!building.showingPrompt) {
                     building.showingPrompt = true;
                     building.prompt = this.add.text(
@@ -125,7 +134,9 @@ export class Map extends Scene
                 }
                 
                 if (this.input.keyboard.addKey('SPACE').isDown) {
-                    this.enterBuilding(building.type);
+                    if (building.destinyScene) {
+                        this.scene.start(building.destinyScene);
+                    }
                 }
             } else {
                 if (building.showingPrompt) {
@@ -137,11 +148,5 @@ export class Map extends Scene
                 }
             }
         });
-    }
-
-    enterBuilding(type) {
-        if (type === 'shop' || type === 'building') {
-            this.scene.start('Game');
-        }
     }
 }
