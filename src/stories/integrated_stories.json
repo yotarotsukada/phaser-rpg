@@ -1,0 +1,199 @@
+{
+  "stories": {
+    "main": {
+      "storyId": "main",
+      "scenes": [
+        {
+          "id": 1,
+          "speaker": "ナレーター",
+          "text": "昔々、遠い王国に勇敢な冒険者がいました。"
+        },
+        {
+          "id": 2,
+          "speaker": "冒険者",
+          "text": "今日こそ、伝説の宝を見つけるぞ！"
+        },
+        {
+          "id": 3,
+          "speaker": "ナレーター",
+          "text": "冒険者は暗い森の中へと足を踏み入れました。"
+        },
+        {
+          "id": 4,
+          "speaker": "？？？",
+          "text": "そこで何をしているのだ、人間よ..."
+        },
+        {
+          "id": 5,
+          "speaker": "冒険者",
+          "text": "あ、あなたは一体...？"
+        },
+        {
+          "id": 6,
+          "speaker": "森の番人",
+          "text": "私は森の番人。この森に迷い込む者を見守っている。"
+        },
+        {
+          "id": 7,
+          "speaker": "森の番人",
+          "text": "さて、君はなぜここに来たのだ？答えによって君の運命が決まるだろう。",
+          "choices": [
+            {
+              "text": "宝を探しに来ました",
+              "nextStory": "treasure_path"
+            },
+            {
+              "text": "迷子になってしまいました",
+              "nextStory": "lost_path"
+            }
+          ]
+        }
+      ]
+    },
+    "treasure_path": {
+      "storyId": "treasure_path",
+      "scenes": [
+        {
+          "id": 1,
+          "speaker": "森の番人",
+          "text": "宝を求める者よ...その心は貪欲に満ちているのか、それとも純粋なのか？"
+        },
+        {
+          "id": 2,
+          "speaker": "ナレーター",
+          "text": "森の番人の目が鋭く光った。"
+        },
+        {
+          "id": 3,
+          "speaker": "森の番人",
+          "text": "この森には古い宝が眠っている。しかし、それを手にする資格があるかは別問題だ。"
+        },
+        {
+          "id": 4,
+          "speaker": "森の番人",
+          "text": "試練を受ける覚悟はあるか？",
+          "choices": [
+            {
+              "text": "はい、試練を受けます！",
+              "nextStory": "trial_path"
+            },
+            {
+              "text": "やっぱり帰ります...",
+              "nextStory": "village_path"
+            }
+          ]
+        }
+      ]
+    },
+    "lost_path": {
+      "storyId": "lost_path",
+      "scenes": [
+        {
+          "id": 1,
+          "speaker": "森の番人",
+          "text": "迷子になったと...正直な心を持つ者よ。"
+        },
+        {
+          "id": 2,
+          "speaker": "ナレーター",
+          "text": "森の番人の表情が和らいだ。"
+        },
+        {
+          "id": 3,
+          "speaker": "森の番人",
+          "text": "君のような素直な心の持ち主は珍しい。私が道案内をしてあげよう。"
+        },
+        {
+          "id": 4,
+          "speaker": "森の番人",
+          "text": "どこへ向かいたいのだ？",
+          "choices": [
+            {
+              "text": "村に帰りたいです",
+              "nextStory": "village_path"
+            },
+            {
+              "text": "もう少し森を探検したいです",
+              "nextStory": "trial_path"
+            }
+          ]
+        }
+      ]
+    },
+    "trial_path": {
+      "storyId": "trial_path",
+      "scenes": [
+        {
+          "id": 1,
+          "speaker": "森の番人",
+          "text": "勇敢な心を持つ者よ！試練を受ける覚悟、見事だ。"
+        },
+        {
+          "id": 2,
+          "speaker": "ナレーター",
+          "text": "森の番人が杖を振ると、周囲の景色が変わり始めた。"
+        },
+        {
+          "id": 3,
+          "speaker": "森の番人",
+          "text": "この試練を乗り越えれば、真の宝を手にすることができるだろう。"
+        },
+        {
+          "id": 4,
+          "speaker": "ナレーター",
+          "text": "冒険者は新たな試練の世界へと足を踏み入れた...続く"
+        }
+      ]
+    },
+    "village_path": {
+      "storyId": "village_path",
+      "scenes": [
+        {
+          "id": 1,
+          "speaker": "森の番人",
+          "text": "村へ帰りたいのか。賢明な判断だ。"
+        },
+        {
+          "id": 2,
+          "speaker": "ナレーター",
+          "text": "森の番人が道を指差すと、そこに光る道が現れた。"
+        },
+        {
+          "id": 3,
+          "speaker": "森の番人",
+          "text": "この道をまっすぐ進めば村に着く。気をつけて帰るのだぞ。"
+        },
+        {
+          "id": 4,
+          "speaker": "ナレーター",
+          "text": "冒険者は安全に村へと帰っていった...終わり"
+        }
+      ]
+    }
+  },
+  "map": {
+    "blocks": [
+      {
+        "x": 500,
+        "y": 600,
+        "width": 240,
+        "height": 240,
+        "destinyScene": "Game"
+      },
+      {
+        "x": 900,
+        "y": 600,
+        "width": 240,
+        "height": 240,
+        "destinyScene": "Game"
+      },
+      {
+        "x": 400,
+        "y": 300,
+        "width": 240,
+        "height": 240,
+        "destinyScene": "forest"
+      }
+    ]
+  }
+}
