@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import gameData from '../stories/integrated_stories.json';
+import gameData from '../stories/data.json';
 
 export class Preloader extends Scene
 {
